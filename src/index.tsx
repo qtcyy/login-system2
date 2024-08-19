@@ -6,6 +6,7 @@ import { Main1 } from "./Page/main1/main1";
 import { Main2 } from "./Page/main2/main2";
 import { Main3 } from "./Page/main3/main3";
 import { Main4 } from "./Page/main4/main4";
+import { Main5 } from "./Page/main5/main5";
 
 const rootEl = document.getElementById("root");
 const router = createBrowserRouter([
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
       {
         path: "main4",
         element: <Main4 />,
+      },
+      {
+        path: "main5",
+        element: <Main5 />,
       },
     ],
   },
