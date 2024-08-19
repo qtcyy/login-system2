@@ -1,6 +1,9 @@
 import axios from "axios";
 import { ChangeEvent, useEffect, useState } from "react";
-import ReactMarkdown from "react-markdown";
+import Markdown from "react-markdown";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
+import "katex/dist/katex.css";
 
 const API = process.env.PUBLIC_OPENAI_API_KEY;
 
@@ -32,6 +35,7 @@ const Openai = () => {
         }
       );
       console.log("post success");
+      setMessages([...updatedMessages, result.data.choices[0].message]);
       setResponse(result.data.choices[0].message.content);
     } catch (error) {
       console.error(error);
@@ -73,10 +77,29 @@ const Openai = () => {
         >
           Submit
         </button>
+        <button
+          className="border-gray-400 bg-gray-300 hover:bg-gray-500 rounded-xl px-2 py-4 mx-2"
+          onClick={() => setMessages([])}
+        >
+          Clear
+        </button>
       </div>
       <div>
         <h3 className="font-sans text-lg">Response from openai:</h3>
-        <ReactMarkdown className="font-serif text-lg">{response}</ReactMarkdown>
+        <ul>
+          {messages.map((message, i) => (
+            <li key={i}>
+              <Markdown
+                key={i}
+                className="font-serif text-lg"
+                remarkPlugins={[remarkMath]}
+                rehypePlugins={[rehypeKatex]}
+              >
+                {message.role + ":   " + message.content}
+              </Markdown>
+            </li>
+          ))}
+        </ul>
       </div>
     </>
   );
