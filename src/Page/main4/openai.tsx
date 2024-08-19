@@ -14,7 +14,7 @@ const Openai = () => {
         {
           model: "gpt-3.5-turbo",
           messages: [{ role: "user", content: input }],
-          max_tokens: 500,
+          max_tokens: tokens,
         },
         {
           headers: {
