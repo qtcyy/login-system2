@@ -4,6 +4,7 @@ import Markdown from "react-markdown";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import "katex/dist/katex.css";
+import remarkGfm from "remark-gfm";
 
 const API = process.env.PUBLIC_OPENAI_API_KEY;
 
@@ -66,9 +67,11 @@ const Openai = () => {
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
+          /*
           onKeyDown={(e) => {
             e.key === "Enter" && handleSubmit();
           }}
+            */
           placeholder="Ask anything..."
         />
         <button
@@ -92,8 +95,26 @@ const Openai = () => {
               <Markdown
                 key={i}
                 className="font-serif text-lg"
-                remarkPlugins={[remarkMath]}
+                remarkPlugins={[remarkMath, remarkGfm]}
                 rehypePlugins={[rehypeKatex]}
+                components={{
+                  code({ node, inline, className, children, ...props }) {
+                    const match = /language-(\w+)/.exec(className || "");
+                    return !inline && match ? (
+                      <code
+                        className={className}
+                        {...props}
+                        children={String(children).replace(/\n$/, "")}
+                      />
+                    ) : (
+                      <code
+                        className={className}
+                        {...props}
+                        children={children}
+                      />
+                    );
+                  },
+                }}
               >
                 {message.role + ":   " + message.content}
               </Markdown>
