@@ -39,6 +39,6 @@ pnpm preview
 ## Using OpenAI API-Key
 Set environment variables
 ```bash
-OPENAI_API_KEY='Your key'
+PUBLIC_OPENAI_API_KEY='Your key'
 ```
 
