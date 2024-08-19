@@ -5,6 +5,10 @@ import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import "katex/dist/katex.css";
 import remarkGfm from "remark-gfm";
+//@ts-ignore
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+//@ts-ignore
+import { coldarkCold } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 const API = process.env.PUBLIC_OPENAI_API_KEY;
 
@@ -101,8 +105,10 @@ const Openai = () => {
                   code({ node, inline, className, children, ...props }) {
                     const match = /language-(\w+)/.exec(className || "");
                     return !inline && match ? (
-                      <code
+                      <SyntaxHighlighter
                         className={className}
+                        style={coldarkCold}
+                        language={match[1]}
                         {...props}
                         children={String(children).replace(/\n$/, "")}
                       />
