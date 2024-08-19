@@ -1,25 +1,33 @@
 import axios from "axios";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
+
+const API = process.env.PUBLIC_OPENAI_API_KEY;
 
 const Openai = () => {
   const [tokens, setTokens] = useState(500);
   const [input, setInput] = useState("");
+  const [messages, setMessages] = useState([{ role: "user", content: "" }]);
   const [response, setResponse] = useState("");
 
+  useEffect(() => {}, []);
+
   const handleSubmit = async () => {
+    const newMessage = { role: "user", content: input };
+    const updatedMessages = [...messages, newMessage];
+    setMessages(updatedMessages);
     try {
       const result = await axios.post(
         "https://api.openai.com/v1/chat/completions",
         {
           model: "gpt-3.5-turbo",
-          messages: [{ role: "user", content: input }],
+          messages: updatedMessages,
           max_tokens: tokens,
         },
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${process.env.OPENAI_KEY}$`,
+            Authorization: `Bearer ${API}`,
           },
         }
       );

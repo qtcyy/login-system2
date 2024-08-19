@@ -4,6 +4,9 @@ import { useState } from "hono/jsx";
 //@ts-ignore
 import pool from "../db/db.ts";
 import { RowDataPacket } from "mysql2";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = new Hono();
 

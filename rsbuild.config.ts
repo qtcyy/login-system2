@@ -6,7 +6,6 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": "http://localhost:3000",
-      // "api.openai.com/v1/chat/completions": "http://localhost:7890",
     },
   },
 });
